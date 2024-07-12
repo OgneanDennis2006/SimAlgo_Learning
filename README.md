@@ -1,5 +1,5 @@
 # SimAlgo_Learning
-SimAlgo Learning este o platformă educațională inovatoare dedicată învățării algoritmilor cu ajutorul simulatoare interactive. Aici poți explora, experimenta și înțelege conceptele algoritmice complexe vizualizându-le în acțiune, facilitând o învățare mai eficientă și intuitivă.
+SimAlgo Learning este o platformă educațională interactivă destinată studenților și profesioniștilor care doresc să învețe și să înțeleagă algoritmi esențiali și structuri de date utilizate în informatică. Platforma oferă o combinație de teorie, cod sursă și simulări vizuale pentru a facilita învățarea într-un mod interactiv și captivant. Prin intermediul unor exemple practice și vizualizări dinamice, utilizatorii pot explora modul în care funcționează diferiți algoritmi și structuri de date, cum ar fi algoritmul Dijkstra, sortările, căutările și altele.
 
 
 # Algoritmi Vizualizați:
