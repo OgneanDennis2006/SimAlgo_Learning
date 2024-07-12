@@ -1,7 +1,6 @@
 # SimAlgo_Learning
 SimAlgo Learning este o platformă educațională inovatoare dedicată învățării algoritmilor cu ajutorul simulatoare interactive. Aici poți explora, experimenta și înțelege conceptele algoritmice complexe vizualizându-le în acțiune, facilitând o învățare mai eficientă și intuitivă.
 
-Funcționalități
 
 # Algoritmi Vizualizați:
   - Bubble Sort: Învață cum funcționează algoritmul de sortare Bubble Sort și vizualizează fiecare pas al procesului.
