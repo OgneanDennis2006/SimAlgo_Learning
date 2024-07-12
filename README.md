@@ -15,7 +15,7 @@ SimAlgo Learning este o platformă educațională inovatoare dedicată învăț�
 # Simulatoare Interactive
   - Experimentează diferiți algoritmi prin simulatoare interactive care îți permit să vezi fiecare pas al execuției în timp real. Aceste simulatoare te ajută să înțelegi mai profund conceptele algoritmice și să observi comportamentul acestora în diverse scenarii.
 
-#Teste și Provocări
+# Teste și Provocări
   - Testează-ți cunoștințele și pune-ți abilitățile la încercare cu teste și provocări interactive. Acestea sunt concepute pentru a te ajuta să îți consolidezi cunoștințele și să aprofundezi înțelegerea algoritmilor.
 
 # Cum să folosești platforma
