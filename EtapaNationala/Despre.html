@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Despre SimAlgo Learning</title>
+    <link rel="stylesheet" href="despre.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                <img src="logo.png" alt="SimAlgo Learning Logo" class="logo-img">
+                SimAlgo Learning
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="home.html">HOME</a></li>
+                    <li><a href="Algoritmi.html">Algoritmi</a></li>
+                    <li><a href="Despre.html">Despre noi</a></li>
+                </ul>
+                
+            </nav>
+            <button class="nav-toggle" aria-label="toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <h1>Despre SimAlgo Learning</h1>
+            <p>SimAlgo Learning este o platformă dedicată învățării vizuale a algoritmilor prin simulatoare interactive. Ne propunem să facem învățarea algoritmilor accesibilă și distractivă pentru toți elevii și studenții, oferind instrumente vizuale și interactive pentru a înțelege conceptele complexe.</p>
+            <h2>Misiunea noastră</h2>
+            <p>Misiunea noastră este să ajutăm elevii să-și dezvolte abilitățile de rezolvare a problemelor și să înțeleagă cum funcționează algoritmii în spatele tehnologiilor moderne.</p>
+            <h2>Contactează-ne</h2>
+            <p>Pentru mai multe informații, ne poți contacta la <a href="mailto:dennisjason511@gmail.com">dennisjason511@gmail.com</a>  sau la <a href="mailto:dariusdavid725@gmail.com">dariusdavid725@gmail.com</a>.</p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-left">&copy; 2024 SimAlgo Learning</p>
+            <p class="footer-center">Made with <span class="heart">❤</span></p>
+            <p class="footer-right" id="current-time"></p>
+        </div>
+    </footer>
+
+    <script>
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('nav-links_visible');
+        });
+
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            document.getElementById('current-time').textContent = timeString;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+    </script>
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimAlgo Learning - BFS Maze</title>
+    <link rel="stylesheet" href="TeorieBfs.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                <img src="logo.png" alt="SimAlgo Learning Logo" class="logo-img">
+                SimAlgo Learning
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="home.html">HOME</a></li>
+                    <li><a href="Algoritmi.html">Algoritmi</a></li>
+                    <li><a href="Despre.html">Despre noi</a></li>
+                </ul>
+                
+            </nav>
+            <button class="nav-toggle" aria-label="toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="content-column">
+                <h1>BFS Maze</h1>
+                <div id="teorie" class="content-section">
+                    <h2>Teorie</h2>
+                    <p>BFS (Breadth-First Search) este un algoritm de căutare în grafuri care explorează toate nodurile de la un nivel înainte de a trece la nivelul următor. Este folosit pentru a găsi cel mai scurt drum într-un graf neponderat.</p>
+                    <pre><code class="code-block">
+void BFS(int start) {
+    queue<int> q;
+    q.push(start);
+    visited[start] = true;
+
+    while (!q.empty()) {
+        int node = q.front();
+        q.pop();
+
+        for (int neighbor : adj[node]) {
+            if (!visited[neighbor]) {
+                q.push(neighbor);
+                visited[neighbor] = true;
+                prev[neighbor] = node;
+            }
+        }
+    }
+}
+                    </code></pre>
+                </div>
+            </div>
+            <div class="visualization-column">
+                <div id="visualization">
+                    <div class="controls">
+                        <button onclick="generateMaze()" class="button">Generate Maze</button>
+                        <button onclick="startBFS()" class="button">Start BFS</button>
+                        <button onclick="resetMaze()" class="button">Reset</button>
+                    </div>
+                    <div id="maze"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-left">&copy; 2024 SimAlgo Learning</p>
+            <p class="footer-center">Made with <span class="heart">❤</span></p>
+            <p class="footer-right" id="current-time"></p>
+        </div>
+    </footer>
+
+    <script>
+        const numRows = 15;
+const numCols = 15;
+let grid = [];
+let startCell = null;
+let endCell = null;
+let isRunning = false;
+let stopRequested = false;
+
+function createGrid() {
+    const gridContainer = document.getElementById('maze');
+    gridContainer.innerHTML = '';
+    grid = [];
+    for (let row = 0; row < numRows; row++) {
+        const gridRow = [];
+        for (let col = 0; col < numCols; col++) {
+            const cell = document.createElement('div');
+            cell.classList.add('cell');
+            cell.dataset.row = row;
+            cell.dataset.col = col;
+            cell.addEventListener('click', handleCellClick);
+            gridContainer.appendChild(cell);
+            gridRow.push(cell);
+        }
+        grid.push(gridRow);
+    }
+}
+
+function handleCellClick(event) {
+    const cell = event.target;
+    if (isRunning) return;
+    if (!startCell) {
+        cell.classList.add('start');
+        startCell = cell;
+    } else if (!endCell) {
+        cell.classList.add('end');
+        endCell = cell;
+    } else {
+        cell.classList.toggle('obstacle');
+    }
+}
+
+function resetMaze() {
+    isRunning = false;
+    stopRequested = false;
+    startCell = null;
+    endCell = null;
+    createGrid();
+}
+
+function generateMaze() {
+    resetMaze();
+    // Add random obstacles
+    for (let row = 0; row < numRows; row++) {
+        for (let col = 0; col < numCols; col++) {
+            if (Math.random() < 0.3) { // 30% chance to be an obstacle
+                grid[row][col].classList.add('obstacle');
+            }
+        }
+    }
+}
+
+async function startBFS() {
+    if (!startCell || !endCell) return alert('Please select start and end cells.');
+
+    isRunning = true;
+    stopRequested = false;
+    const start = [parseInt(startCell.dataset.row), parseInt(startCell.dataset.col)];
+    const end = [parseInt(endCell.dataset.row), parseInt(endCell.dataset.col)];
+
+    const directions = [
+        [0, 1], [1, 0], [0, -1], [-1, 0],[1,1],[1,-1],[-1,-1],[-1,1]
+    ];
+
+    const distance = Array.from({ length: numRows }, () => Array(numCols).fill(Infinity));
+    const prev = Array.from({ length: numRows }, () => Array(numCols).fill(null));
+    distance[start[0]][start[1]] = 0;
+
+    const queue = [];
+    queue.push(start);
+
+    while (queue.length > 0 && !stopRequested) {
+        const [row, col] = queue.shift();
+
+        if (row === end[0] && col === end[1]) break;
+
+        for (const [dr, dc] of directions) {
+            const newRow = row + dr;
+            const newCol = col + dc;
+
+            if (
+                newRow >= 0 && newRow < numRows &&
+                newCol >= 0 && newCol < numCols &&
+                !grid[newRow][newCol].classList.contains('obstacle') &&
+                distance[newRow][newCol] === Infinity
+            ) {
+                distance[newRow][newCol] = distance[row][col] + 1;
+                prev[newRow][newCol] = [row, col];
+                queue.push([newRow, newCol]);
+                if (!(newRow === end[0] && newCol === end[1])) {
+                    grid[newRow][newCol].classList.add('visited'); // Highlight visited cells
+                }
+                await new Promise(resolve => setTimeout(resolve, 50)); // Delay for visualization
+            }
+        }
+    }
+
+    if (!stopRequested) {
+        let current = end;
+        while (current) {
+            const [row, col] = current;
+            if (!(row === start[0] && col === start[1])) {
+                grid[row][col].classList.add('path'); // Highlight shortest path
+            }
+            current = prev[row][col];
+            await new Promise(resolve => setTimeout(resolve, 50)); // Delay for visualization
+        }
+    }
+}
+
+function stopBFS() {
+    stopRequested = true;
+    isRunning = false;
+}
+
+createGrid();
+function updateTime() {
+    const now = new Date();
+    const timeString = now.toLocaleTimeString();
+    document.getElementById('current-time').textContent = timeString;
+}
+setInterval(updateTime, 1000);
+updateTime();
+
+const navToggle = document.querySelector('.nav-toggle');
+const navLinks = document.querySelector('.nav-links');
+
+navToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('nav-links_visible');
+});
+
+    </script>
+</body>
+</html>
