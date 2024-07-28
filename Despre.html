@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Despre SimAlgo Learning</title>
+    <link rel="stylesheet" href="Despre.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <header class="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                <img src="logo.png" alt="SimAlgo Learning Logo" class="logo-img">
+                SimAlgo Learning
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="home.html">HOME</a></li>
+                    <li><a href="Algoritmi.html">Algoritmi</a></li>
+                    <li><a href="Despre.html">Despre noi</a></li>
+                </ul>
+                
+            </nav>
+            <button class="nav-toggle" aria-label="toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <h1>Despre SimAlgo Learning</h1>
+            <p>Proiectul SimAlgo Learning a fost inițiat de doi elevi din județul Hunedoara, care și-au dorit să transforme modul în care se învață informatica. În loc să se limiteze la metoda tradițională de memorare a algoritmilor, aceștia au creat o platformă inovatoare și captivantă, menită să facă învățarea mai ușoară și mai interesantă.</p>
+            <p>SimAlgo Learning a luat naștere din dorința de a face educația în domeniul informaticii mai interactivă și accesibilă pentru toți elevii din țară. Platforma noastră se concentrează pe predarea algoritmilor elementari în C++, utilizând metode vizuale și interactive pentru a facilita înțelegerea acestora. Astfel, elevii pot învăța concepte complexe într-un mod intuitiv și plăcut, depășind provocările învățării tradiționale.</p>
+            <p>Prin SimAlgo Learning, ne propunem să aducem o schimbare semnificativă în modul de predare a informaticii, oferind resurse educaționale de calitate care să sprijine și să inspire elevii din întreaga țară.</p>
+        
+            <h2>Contactează-ne</h2>
+            <p>Pentru mai multe informații, ne poți contacta la <a href="mailto:contact@simalgo.ro">contact@simalgo.ro</a>  </p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-left">&copy; 2024 SimAlgo Learning</p>
+            <p class="footer-center">Made with <span class="heart">❤</span></p>
+            <p class="footer-right" id="current-time"></p>
+        </div>
+    </footer>
+
+    <script>
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('nav-links_visible');
+        });
+
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            document.getElementById('current-time').textContent = timeString;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+    </script>
+</body>
+</html>

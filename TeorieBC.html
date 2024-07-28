@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimAlgo Learning - Teorie Backtracking Combinatoric</title>
+    <link rel="stylesheet" href="TeorieBC.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                <img src="logo.png" alt="SimAlgo Learning Logo" class="logo-img">
+                SimAlgo Learning
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="home.html">HOME</a></li>
+                    <li><a href="Algoritmi.html">Algoritmi</a></li>
+                    <li><a href="Despre.html">Despre noi</a></li>
+                </ul>
+            </nav>
+            <button class="nav-toggle" aria-label="toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="content-column">
+                <h1>Backtracking Combinatoric</h1>
+                <div id="teorie" class="content-section">
+                    <h2>Teorie</h2>
+                    <div class="scrollable-content">
+                        <h3>Introducere</h3>
+                        <p>Metoda backtracking poate fi folosită în rezolvarea a diverse probleme. Este o metodă lentă, dar de multe ori este singura pe care o avem la dispoziție!</p>
+                        <p>Metoda backtracking poate fi aplicată în rezolvarea problemelor care respectă următoarele condiții:</p>
+                        <ul>
+                            <li>soluția poate fi reprezentată printr-un tablou x[]=(x[1], x[2], ..., x[n]), fiecare element x[i] aparținând unei mulțimi cunoscute Ai;</li>
+                            <li>fiecare mulțime Ai este finită, iar elementele ei se află într-o relație de ordine precizată – de multe ori cele n mulțimi sunt identice;</li>
+                            <li>se cer toate soluțiile problemei sau se cere o anumită soluție care nu poate fi determinată într-un alt mod (de regulă mai rapid).</li>
+                        </ul>
+                        <p>Algoritmul de tip backtracking construiește vectorul x[] (numit vector soluție) astfel:</p>
+                        <ol>
+                            <li>Fiecare pas k, începând (de regulă) de la pasul 1, se prelucrează elementul curent x[k] al vectorului soluție:
+                                <ul>
+                                    <li>x[k] primește pe rând valori din mulțimea corespunzătoare Ak;</li>
+                                    <li>la fiecare pas se verifică dacă configurația curentă a vectorului soluție poate duce la o soluție finală – dacă valoarea lui x[k] este corectă în raport cu x[1], x[2], … x[k-1]:
+                                        <ul>
+                                            <li>dacă valoarea nu este corectă, elementul curent X[k] primește următoarea valoare din Ak sau revenim la elementul anterior x[k-1], dacă X[k] a primit toate valorile din Ak – pas înapoi;</li>
+                                            <li>dacă valoarea lui x[k] este corectă (avem o soluție parțială), se verifică existența unei soluții finale a problemei:
+                                                <ul>
+                                                    <li>dacă configurația curentă a vectorului soluție x reprezintă soluție finală (de regulă) o afișăm;</li>
+                                                    <li>dacă nu am identificat o soluție finală trecem la următorul element, x[k+1], și reluăm procesul pentru acest element – pas înainte.</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ol>
+                        <p>Pe măsură ce se construiește, vectorul soluție x[] reprezintă o soluție parțială a problemei. Când vectorul soluție este complet construit, avem o soluție finală a problemei.</p>
+                        
+                        <h3>Complexitatea algoritmului</h3>
+                        <p>Algoritmii Backtracking sunt exponențiali. Complexitatea depinde de la problemă la problemă dar este de tipul O(n!). De exemplu:</p>
+                        <ul>
+                            <li>generarea permutărilor unei mulțimi cu n elemente are complexitatea O(n!);</li>
+                            <li>generarea submulțimilor unei mulțimi cu n elemente are complexitatea O(2^n);</li>
+                            <li>produsul cartezian A x B, unde mulțimea A are m elemente și mulțimea B are n elemente, are complexitatea O(m * n) etc.</li>
+                        </ul>
+                        <p>Un exemplu clasic de problemă de backtracking este problema n-reginelor, unde trebuie să așezăm n regine pe o tablă de șah de n x n astfel încât nicio regină să nu atace pe alta.</p>
+                        <p>Mai jos aveți algoritmul care obține 100p pentru problema #1281 Regine1 de pe pbinfo.ro:</p>
+                   
+                </div>
+                </div>
+            </div>
+            <div class="visualization-column">
+                <div id="visualization">
+                    <div class="controls">
+                        <button onclick="shuffleArray()" class="button">Shuffle</button>
+                        <button onclick="startBacktracking()" class="button">Start</button>
+                        <button onclick="pauseBacktracking()" class="button">Pause</button>
+                    </div>
+                    <div id="chessboard"></div>
+                </div>
+            </div>
+        </div>
+        <div class="source-code">
+            <h2>Source Code:</h2>
+        <pre><code class="code-block">
+            #include &ltbits/stdc++.h>
+            using namespace std;
+            int n,m,x[1001],y[1001],l,ok;
+            
+            void afis()
+            {
+                for(int i=1;i&lt=n;++i)
+                {
+                    for(int j=1;j&lt=n;++j)
+                    {
+                        if(x[j]==i)
+                            cout&lt&lt"* ";
+                        else
+                            cout&lt&lt"- ";
+                    }
+                    cout&lt&ltendl;
+                }
+                l++;
+            
+            }
+            
+            void back(int k)
+            {
+                for(int i=1;i&lt=n && l==0;++i)
+                {
+                    if(!y[i])
+                    {
+                        ok=0;
+                        x[k]=i;
+                        y[i]=1;
+                        for(int j=1;j&ltk;++j)
+                            if(k-j==abs(x[k]-x[j]))
+                                ok=1;
+                        if(k==n && ok==0)
+                            afis();
+                        else if(ok==0)
+                            back(k+1);
+                        y[i]=0;
+                    }
+                }
+            
+            }
+            int main()
+            {
+               cin>>n;
+                back(1);
+            
+                return 0;
+            }
+        </code> </pre>
+            </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-left">&copy; 2024 SimAlgo Learning</p>
+            <p class="footer-center">Made with <span class="heart">❤</span></p>
+            <p class="footer-right" id="current-time"></p>
+        </div>
+    </footer>
+
+    <script>
+        let isPaused = false;
+        let currentTask = null;
+
+        function createChessboard() {
+            const chessboardContainer = document.getElementById('chessboard');
+            chessboardContainer.innerHTML = '';
+            for (let row = 0; row < 8; row++) {
+                for (let col = 0; col < 8; col++) {
+                    const cell = document.createElement('div');
+                    cell.classList.add('cell');
+                    if ((row + col) % 2 === 0) {
+                        cell.classList.add('white-cell');
+                    } else {
+                        cell.classList.add('black-cell');
+                    }
+                    chessboardContainer.appendChild(cell);
+                }
+            }
+        }
+
+        async function startBacktracking() {
+            isPaused = false;
+            if (!currentTask) {
+                currentTask = backtracking(8);
+                await currentTask;
+                currentTask = null;
+            }
+        }
+
+        function pauseBacktracking() {
+            isPaused = true;
+        }
+
+        async function backtracking(n) {
+            let board = Array(n).fill().map(() => Array(n).fill(false));
+            await solveNQueens(board, 0);
+        }
+
+        async function solveNQueens(board, row) {
+            const n = board.length;
+            if (row === n) {
+                await displaySolution(board);
+                return true;
+            }
+            let found = false;
+            for (let col = 0; col < n; col++) {
+                if (isPaused) return false;
+                if (isSafe(board, row, col)) {
+                    board[row][col] = true;
+                    if (await solveNQueens(board, row + 1)) {
+                        found = true;
+                    }
+                    board[row][col] = false;
+                }
+            }
+            return found;
+        }
+
+        function isSafe(board, row, col) {
+            for (let i = 0; i < row; i++) {
+                if (board[i][col]) return false;
+            }
+            for (let i = row, j = col; i >= 0 && j >= 0; i--, j--) {
+                if (board[i][j]) return false;
+            }
+            for (let i = row, j = col; i >= 0 && j < board.length; i--, j++) {
+                if (board[i][j]) return false;
+            }
+            return true;
+        }
+
+        async function displaySolution(board) {
+            const chessboardContainer = document.getElementById('chessboard');
+            const cells = chessboardContainer.getElementsByClassName('cell');
+            const n = board.length;
+            for (let i = 0; i < n; i++) {
+                for (let j = 0; j < n; j++) {
+                    const cell = cells[i * n + j];
+                    if (board[i][j]) {
+                        cell.classList.add('queen');
+                    } else {
+                        cell.classList.remove('queen');
+                    }
+                }
+            }
+            await new Promise(resolve => setTimeout(resolve, 500));
+        }
+
+        createChessboard();
+
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            document.getElementById('current-time').textContent = timeString;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+    </script>
+</body>
+</html>

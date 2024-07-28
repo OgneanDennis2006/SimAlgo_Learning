@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimAlgo Learning - Kruskal's Algorithm</title>
+    <link rel="stylesheet" href="TeorieKruskal.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                <img src="logo.png" alt="SimAlgo Learning Logo" class="logo-img">
+                SimAlgo Learning
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="home.html">HOME</a></li>
+                    <li><a href="Algoritmi.html">Algoritmi</a></li>
+                    <li><a href="Despre.html">Despre noi</a></li>
+                </ul>
+            
+            </nav>
+            <button class="nav-toggle" aria-label="toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="content-column">
+                <h1>Kruskal's Algorithm</h1>
+                <div id="teorie" class="content-section">
+                    <h2>Teorie</h2>
+                    <div class="scrollable-content">
+                        <p>Algoritmul lui Kruskal are rolul de a găsi arborele parțial de cost minim. Acest algoritm a fost descoperit în anul 1956.  algoritmul lui Kruskal este greedy deoarece la început toate muchiile din graf trebuie sortate crescător.</p>
+                        <h3>Cum funcționează acest algoritm?</h3>
+                        <p>Primul pas din algoritmul lui Kruskal este sa sortam nodurile in ordine crescatoare. Dupa ce am sortat nodurile in ordine crescatoare, incepem cu cea mai mica pereche si creeam primul nostru arbore.<br>
+                        Pe masura ce algoritmul avanseaza de fiecare data trebuie sa unim doi arbori mai mici. Trebuie sa avem mare grija ca cei doi arbori sa nu fie deja conectati (pentru a respecta proprietatea de arbore). Ca sa ne apropriem de raspunsul final, trebuie sa unim arborele mai mic, cu arborele mai mare.</p>
+
+                        <h3>Complexitatea algoritmului lui Kruskal</h3>
+                        <p>Pentru a analiza complexitatea, trebuie sa ne uitam la functia „Solve”. Aceasta parcurge toate muchiile (deci avem din start un M). Dupa care functia repetitiva mai deschide o functie recursiva (in functia Solve – apelam functia Find).<br><br>
+                        Deoarece functia Find are complexitatea log2N unde N este numarul total de noduri – ajungem la complexitatea finala a algoritmului O(M * log2N) – unde M este numarul total de muchii.</p>
+                        <p>Tot algoritmul pentru obtinerea celor 100 de puncte pentru problema apm de pe  infoarena.ro poate fi gasit mai jos:</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="visualization-column">
+                <div id="visualization">
+                    <div class="controls">
+                        <button onclick="runKruskal()" class="button">Run Kruskal</button>
+                        <button onclick="randomizeWeights()" class="button">Randomize Weights</button>
+                        <button onclick="resetCanvas()" class="button">Reset</button>
+                    </div>
+                    <div class="canvas-container">
+                        <canvas id="canvas"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div class="source-code">
+            <h2>Source Code:</h2>
+            <pre><code class="code-block">
+
+    #include &ltfstream>
+    #include &ltiostream>
+    #include &ltalgorithm>
+    
+    using namespace std;
+    
+    ifstream  fin("apm.in");
+    ofstream fout("apm.out");
+    
+    const int NMax = 400005;
+    
+    pair &ltint,int> P[NMax];
+    
+    int N, M, Total, TT[NMax], k, RG[NMax];
+    
+    struct Edge
+    {
+        int x,y,c;
+    
+    }V[NMax];
+    
+    bool Compare(Edge a, Edge b)
+    {
+        return a.c &lt b.c;
+    }
+    
+    void Read()
+    {
+        fin >> N >> M;
+    
+        for(int i = 1; i &lt= M; i++)
+            fin >> V[i].x >> V[i].y >> V[i].c;
+    
+        sort(V+1, V+M+1, Compare);
+    
+        for(int i = 1; i &lt= M; i++)
+            cout &lt&lt V[i].x &lt&lt " " &lt&lt V[i].y &lt&lt " " &lt&lt V[i].c &lt&lt "\n";
+    }
+    
+    int Find(int nod)
+    {
+        while(TT[nod] != nod)
+            nod = TT[nod];
+        return nod;
+    }
+    
+    void Unite(int x, int y)
+    {
+        if(RG[x] &lt RG[y])
+            TT[x] = y;
+        if(RG[y] &lt RG[x])
+            TT[y] = x;
+        if(RG[x] == RG[y])
+        {
+            TT[x]=y;
+            RG[y]++;
+        }
+    }
+    
+    void Solve()
+    {
+        for(int i=1;i&lt=M;i++)
+        {
+            
+            if(Find(V[i].x) != Find(V[i].y))
+            {
+                Unite(Find(V[i].x), Find(V[i].y));
+                P[++k].first = V[i].x;
+                P[k].second = V[i].y;
+                Total += V[i].c;
+            }
+        }
+    }
+    
+    int main()
+    {
+        Read();
+    
+        for(int i = 1; i &lt= M; i++)
+        {
+            TT[i]=i;
+            RG[i]=1;
+        }
+    
+        Solve();
+    
+        fout &lt&lt Total &lt&lt "\n";
+        fout &lt&lt N-1 &lt&lt"\n";
+    
+        for(int i = 1; i &lt= k; i++)
+            fout &lt&lt P[i].first &lt&lt " " &lt&lt P[i].second &lt&lt "\n";
+    
+        return 0;
+    }
+
+
+                
+            </code></pre>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-left">&copy; 2024 SimAlgo Learning</p>
+            <p class="footer-center">Made with <span class="heart">❤</span></p>
+            <p class="footer-right" id="current-time"></p>
+        </div>
+    </footer>
+
+    
+    <script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+canvas.width = 500;
+canvas.height = 500;
+
+let nodes = [];
+let edges = [];
+let originalEdges = [];
+let isAddingEdge = false;
+let selectedNode = null;
+
+canvas.addEventListener('click', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    handleNodeCreationOrEdgeCreation(x, y);
+});
+
+function handleNodeCreationOrEdgeCreation(x, y) {
+    const clickedNode = getNodeAtPosition(x, y);
+    if (clickedNode) {
+        if (selectedNode) {
+            if (selectedNode.id !== clickedNode.id) {
+                addEdge(selectedNode, clickedNode);
+                selectedNode = null;
+            } else {
+                selectedNode = null;
+            }
+        } else {
+            selectedNode = clickedNode;
+        }
+    } else {
+        addNode(x, y);
+    }
+    draw();
+}
+
+function addNode(x, y) {
+    if (!getNodeAtPosition(x, y)) {
+        nodes.push({ x, y, id: nodes.length });
+    }
+}
+
+function getNodeAtPosition(x, y) {
+    return nodes.find(node => isInsideNode(node, x, y));
+}
+
+function addEdge(node1, node2) {
+    const weight = Math.floor(Math.random() * 100) + 1;
+    const edge = { node1, node2, weight, color: 'white' };
+    edges.push(edge);
+    originalEdges.push(edge);
+}
+
+function isInsideNode(node, x, y) {
+    const dx = node.x - x;
+    const dy = node.y - y;
+    return Math.sqrt(dx * dx + dy * dy) < 20;
+}
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (const edge of edges) {
+        drawEdge(edge);
+    }
+    for (const node of nodes) {
+        drawNode(node);
+    }
+}
+
+function drawNode(node) {
+    ctx.beginPath();
+    ctx.arc(node.x, node.y, 25, 0, Math.PI * 2);
+    ctx.fillStyle = 'green';
+    ctx.fill();
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = 'white';
+    ctx.stroke();
+    ctx.fillStyle = 'black';
+    ctx.font = '15px Arial';
+    ctx.fillText(node.id, node.x - 5, node.y + 5);
+}
+
+function drawEdge(edge) {
+    ctx.beginPath();
+    ctx.moveTo(edge.node1.x, edge.node1.y);
+    ctx.lineTo(edge.node2.x, edge.node2.y);
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = edge.color;
+    ctx.stroke();
+    const midX = (edge.node1.x + edge.node2.x) / 2;
+    const midY = (edge.node1.y + edge.node2.y) / 2;
+    ctx.fillStyle = 'red';
+    ctx.font = '25px Arial';
+    ctx.fillText(edge.weight, midX, midY);
+}
+
+function runKruskal() {
+    edges.sort((a, b) => a.weight - b.weight);
+    const parent = Array.from({ length: nodes.length }, (_, i) => i);
+    const find = (u) => (u !== parent[u] ? (parent[u] = find(parent[u])) : u);
+    const union = (u, v) => (parent[find(u)] = find(v));
+
+    const mst = [];
+    for (const edge of edges) {
+        if (find(edge.node1.id) !== find(edge.node2.id)) {
+            edge.color = 'purple';  // Color for MST edges
+            mst.push(edge);
+            union(edge.node1.id, edge.node2.id);
+        }
+    }
+   
+    draw();
+}
+
+function randomizeWeights() {
+    for(const edge of edges)
+    { 
+        edge.weight = Math.floor(Math.random() * 100) + 1
+
+    };
+    for(const edge of edges)
+        edge.color='white';
+    draw();
+}
+
+function resetCanvas() {
+    nodes = [];
+    edges = [];
+    originalEdges = [];
+    draw();
+}
+
+document.getElementById('runKruskal').addEventListener('click', runKruskal);
+document.getElementById('randomizeWeights').addEventListener('click', randomizeWeights);
+document.getElementById('reset').addEventListener('click', resetCanvas);
+
+draw();
+
+
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            document.getElementById('current-time').textContent = timeString;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+    </script>
+</body>
+</html>

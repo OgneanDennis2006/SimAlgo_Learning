@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimAlgo Learning - Teorie Quick Sort</title>
+    <link rel="stylesheet" href="TeorieQuickSort.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                <img src="logo.png" alt="SimAlgo Learning Logo" class="logo-img">
+                SimAlgo Learning
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="home.html">HOME</a></li>
+                    <li><a href="Algoritmi.html">Algoritmi</a></li>
+                    <li><a href="Despre.html">Despre noi</a></li>
+                </ul>
+                
+            </nav>
+            <button class="nav-toggle" aria-label="toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="content-column">
+                <h1>Quick Sort</h1>
+                <div id="teorie" class="content-section">
+                    <h2>Teorie</h2>
+                    <div class="scrollable-content">
+                        <p>QuickSort sau Sortarea rapidă este o metodă eficientă de sortare a unui tablou, descoperită în 1960 de programatorul britanic C.A.R. Hoare. Pentru un set de n valori oarecare algoritmul efectuează O(nlogn) comparații, dar în cazul cel mai nefavorabil se efectuează O(n^2) comparații.</p>
+                        <p>Algoritmul este de tip divide et impera; el sortează o secvență a tabloului (inițial întreg tabloul), astfel:</p>
+                        <p>se alege un element special al listei, numit pivot;</p>
+                        <p>se ordonează elementele listei, astfel încât toate elementele din stânga pivotului să fie mai mici sau egale cu acesta, și toate elementele din dreapta pivotului să fie mai mari sau egale cu acesta;</p>
+                        <p>se continuă recursiv cu secvența din stânga pivotului și cu cea din dreapta lui.</p>
+                        <p>Observații:</p>
+                        <p>în timpul pivotării:</p>
+                        <p>la fiecare iterație, doar una dintre variabilele i și j se modifică: sau crește i, sau scade j</p>
+                        <p>pivotul este elementul cu indicele care nu se modifică</p>
+                        <p>algoritmul descris mai sus realizează ordonarea crescătoare a tabloului; pentru ordonarea descrescătoarea algoritmul este asemănător: prin pivotare, elementele din stânga pivotului devin mai mari decât acesta, cele din dreapta devin mai mici;</p>
+                        <p>algoritmul este cu atât mai rapid cu cât la fiecare etapă cele două secvențe delimitate de pivot au lungimi cât mai apropiate (ideal egale);</p>
+                        <p>dacă tabloul este de a început ordonat crescător sau descrescător, complexitatea algoritmului devine pătratică – O(n^2);</p>
+                        <p>anumite metode de alegere a pivotului pot să evite această situație.</p>
+                   
+                   
+                </div>
+            </div>
+            </div>
+            <div class="visualization-column">
+                <div id="visualization">
+                    <div class="controls">
+                        <button onclick="shuffleArray()" class="button">Shuffle</button>
+                        <button onclick="startSort()" class="button">Start</button>
+                        <button onclick="pauseSort()" class="button">Pause</button>
+                    </div>
+                    <div id="bars"></div>
+                </div>
+            </div>
+        </div>
+        <div class="source-code">
+            <pre><code class="code-block">
+
+#include &ltbits/stdc++.h>
+using namespace std;
+
+int n, a[100001];
+
+void Quicksort(int st, int dr){
+    if(st &l dr){
+        int mij = (st + dr) / 2;
+        swap(a[st], a[mij]);
+        int i = st, j = dr, d = 0;
+        while(i &l j){
+            if(a[i] > a[j]){
+                swap(a[i], a[j]);
+                d = 1 - d;
+            }
+            i += d;
+            j -= 1-d;
+        }
+        Quicksort(st, i - 1);
+        Quicksort(i + 1, dr);
+    }
+}
+
+int main(){
+    cin >> n;
+    for(int i = 1; i &l= n; ++i)
+        cin >> a[i];
+    Quicksort(1, n);
+    for(int i = 1; i &l= n; ++i)
+        cout &l&l a[i] &l&l ' ';
+    return 0;
+}
+                                    </code></pre>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-left">&copy; 2024 SimAlgo Learning</p>
+            <p class="footer-center">Made with <span class="heart">❤</span></p>
+            <p class="footer-right" id="current-time"></p>
+        </div>
+    </footer>
+
+    <script>
+        let array = [];
+        let isPaused = false;
+        let currentTask = null;
+
+        function createBars() {
+            const barsContainer = document.getElementById('bars');
+            barsContainer.innerHTML = '';
+            array.forEach((value, index) => {
+                const barContainer = document.createElement('div');
+                barContainer.classList.add('bar-container');
+
+                const bar = document.createElement('div');
+                bar.style.height = `${value}px`;
+                bar.classList.add('bar');
+
+                const valueLabel = document.createElement('span');
+                valueLabel.textContent = value;
+                valueLabel.classList.add('value-label');
+
+                const indexLabel = document.createElement('div');
+                indexLabel.textContent = `[${index}]`;
+                indexLabel.classList.add('index-label');
+
+                barContainer.appendChild(bar);
+                bar.appendChild(valueLabel);
+                barContainer.appendChild(indexLabel);
+                barsContainer.appendChild(barContainer);
+            });
+        }
+
+        function shuffleArray() {
+            array = Array.from({ length: 15 }, () => Math.floor(Math.random() * 150) + 50);
+            createBars();
+        }
+
+        async function quickSort(arr, left, right) {
+            if (left < right) {
+                const pivotIndex = await partition(arr, left, right);
+                await Promise.all([
+                    quickSort(arr, left, pivotIndex - 1),
+                    quickSort(arr, pivotIndex + 1, right)
+                ]);
+            }
+        }
+
+        async function partition(arr, left, right) {
+            const pivotValue = arr[right];
+            let pivotIndex = left;
+            for (let i = left; i < right; i++) {
+                if (arr[i] < pivotValue) {
+                    await swap(arr, i, pivotIndex);
+                    pivotIndex++;
+                }
+            }
+            await swap(arr, pivotIndex, right);
+            return pivotIndex;
+        }
+
+        async function swap(arr, i, j) {
+            const bars = document.querySelectorAll('.bar');
+            bars[i].style.backgroundColor = 'red';
+            bars[j].style.backgroundColor = 'red';
+
+            await new Promise(resolve => setTimeout(resolve, 300));
+
+            let temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+            bars[i].style.height = `${arr[i]}px`;
+            bars[j].style.height = `${arr[j]}px`;
+            bars[i].querySelector('.value-label').textContent = arr[i];
+            bars[j].querySelector('.value-label').textContent = arr[j];
+
+            bars[i].style.backgroundColor = 'turquoise';
+            bars[j].style.backgroundColor = 'turquoise';
+        }
+
+        async function startSort() {
+            isPaused = false;
+            if (!currentTask) {
+                currentTask = quickSort(array, 0, array.length - 1);
+                await currentTask;
+                currentTask = null;
+            }
+        }
+
+        function pauseSort() {
+            isPaused = true;
+        }
+
+        shuffleArray(); // Initial shuffle on page load
+
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            document.getElementById('current-time').textContent = timeString;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+    </script>
+</body>
+</html>

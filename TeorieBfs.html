@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimAlgo Learning - BFS Maze</title>
+    <link rel="stylesheet" href="TeorieBfs.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                <img src="logo.png" alt="SimAlgo Learning Logo" class="logo-img">
+                SimAlgo Learning
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="home.html">HOME</a></li>
+                    <li><a href="Algoritmi.html">Algoritmi</a></li>
+                    <li><a href="Despre.html">Despre noi</a></li>
+                </ul>
+                
+            </nav>
+            <button class="nav-toggle" aria-label="toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="content-column">
+                <h1>BFS Maze</h1>
+                <div id="teorie" class="content-section">
+                    <h2>Teorie</h2>
+                    <div class="scrollable-content">
+                        <p>Prin parcurgerea grafului G se întelege vizitarea, tuturor nodurilor, plecând de la un nod de plecare, vizitand in mod progresiv fiecare nod al grafului</p>
+                        <h3>Memorarea vecinilor</h3>
+                        <p>Vom folosii libraria <code>#include &lt;vector&gt;</code> pentru a utiliza vectori alocati dinamic.<br>
+                        <code>#include &lt;vector&gt;<br>
+                        const int NLIM = 100005;<br>
+                        vector &lt; int &gt; Edge[NLIM];</code><br>
+                        De data aceasta vom avea de a face cu un graf orientat (problema BFS – infoarena.ro) asa ca vom stoca doar un singur sens. Avem grija desigur sa citim bine fisierul de intrare.<br>
+                        <code>Edge[x].push_back(y);</code></p>
+
+                        <h3>Folosirea cozii</h3>
+                        <p>Deoarece algoritmul BFS parcurge mai intai toate nodurile de acelasi nivel (adica „toti vecinii deodata”), avem nevoie sa folosim o coada pentru a retine nodurile ce urmeaza a fi parcurse.<br>
+                        <code>#include &lt;queue&gt;<br>
+                        queue &lt;int&gt; Coada;<br>
+                        Coada.push(NodStart);</code></p>
+
+                        <h3>Algoritmul BFS</h3>
+                        <p>Declaram vectorul global „Distanta” in care Distanta[i] va reprezenta distanta de la nodul de start la nodul numarul i.</p>
+                        <pre><code class="code-block">
+void BFS()
+{
+    int Nod, Vecin;
+    while(!Coada.empty())
+    {
+        Nod =  Coada.front();
+        Coada.pop();
+        for(unsigned int i = 0; i < Edge[Nod].size(); i++)
+        {
+            Vecin = Edge[Nod][i];
+            if(Distanta[Vecin] == -1)
+            {
+                Coada.push(Vecin);
+                Distanta[Vecin] = Distanta[Nod] + 1;
+            }
+        }
+    }
+}
+                        </code></pre>
+                        <p>Primul lucru in algloritmul BFS va fi intotdeauna sa luam primul nod din coada si sa-l analizam. Functia <code>front()</code> preia primul element din coada, in timp ce functia <code>pop()</code> il sterge din coada.<br><br>
+
+                        Dupa ce am preluat nodul curent din coada, ii punem toti vecinii in coada si le calculam distanta.<br><br>
+
+                        La final dupa ce am parcurs toate nodurile, afisam distanta pentru fiecare nod in parte.<br><br>
+
+                        <code>for(int i = 1; i <= N; i++) fout << Distance[i] << " ";</code><br><br>
+
+                        Tot algoritmul pentru obtinerea celor 100 de puncte pe infoarena.ro poate fi gasit mai jos:</p>
+                    </div>
+                </div>
+            </div>
+            <div class="visualization-column">
+                <div id="controls">
+                    <button id="generate">Generate Maze</button>
+                    <button id="solve">Start BFS</button>
+                    <button id="clear">Reset</button>
+                </div>
+                <canvas></canvas>
+            </div>
+        </div>
+        <div class="source-code">
+            <h2>Source Code:</h2>
+            <pre><code class="code-block">
+    #include &ltiostream>
+    #include &ltfstream>
+    #include &ltvector>
+    #include &ltqueue>
+    
+    using namespace std;
+    
+    ifstream fin("bfs.in");
+    ofstream fout("bfs.out");
+    
+    const int NLIM = 100005;
+    
+    int N, M, S;
+    int Distance[NLIM];
+    
+    vector &ltint> Edge[NLIM];
+    queue &ltint> Q;
+    
+    void BFS()
+    {
+        int Node, Next;
+        while(!Q.empty())
+        {
+            Node =  Q.front();
+            Q.pop();
+            for(unsigned int i = 0; i &lt Edge[Node].size(); i++)
+            {
+                Next = Edge[Node][i];
+                if(Distance[Next] == -1)
+                {
+                    Q.push(Next);
+                    Distance[Next] = Distance[Node] + 1;
+                }
+            }
+        }
+    }
+    
+    void Read()
+    {
+        fin >> N >> M >> S;
+        for(int i = 1; i &lt= M; i++)
+        {
+            int x, y;
+            fin >> x >> y;
+            Edge[x].push_back(y);
+        }
+        for(int i = 1; i &lt= N; i++)
+            Distance[i] = -1;
+        Distance[S] = 0;
+    
+        Q.push(S);
+    
+        BFS();
+    
+        for(int i = 1; i &lt= N; i++)
+            fout &lt&lt Distance[i] &lt&lt " ";
+    }
+    
+    int main()
+    {
+        Read();
+        return 0;
+    }
+            </code></pre>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-left">&copy; 2024 SimAlgo Learning</p>
+            <p class="footer-center">Made with <span class="heart">❤</span></p>
+            <p class="footer-right" id="current-time"></p>
+        </div>
+    </footer>
+
+    <script>
+        const canvas = document.getElementsByTagName("canvas")[0];
+   const ctx = canvas.getContext("2d");
+   const WIDTH = 500;
+   const HEIGHT = 500;
+   const numRows = 15;
+   const numCols = 15;
+   canvas.width = WIDTH;
+   canvas.height = HEIGHT;
+   
+   class Cell {
+       constructor(cellType) {
+           this.value = cellType;
+           this.row = null;
+           this.col = null;
+           this.distance = null;
+           this.pred = null;
+           this.bfsColor = "white";
+       }
+   
+       getColor() {
+           switch (this.value) {
+               case "V":
+                   return "#ADD8E6";
+               case "#":
+                   return "#000000";
+               case " ":
+                   return "#FFFFFF";
+               case "S":
+                   return "#008000";
+               case "E":
+                   return "#FF0000";
+               case "P":
+                   return "#800080";
+               case "gray":
+                   return "lightblue";
+               default:
+                   return "#FFFF00";
+           }
+       }
+   
+       setPos(row, col) {
+           this.row = row;
+           this.col = col;
+       }
+   
+       getNeighbors() {
+           const row = this.row;
+           const col = this.col;
+           return [
+               [row - 1, col],
+               [row + 1, col],
+               [row, col - 1],
+               [row, col + 1]
+           ];
+       }
+   
+       setDistance(distance) {
+           this.distance = distance;
+       }
+   
+       getDistance() {
+           return this.distance;
+       }
+   
+       getBFSColor() {
+           return this.bfsColor;
+       }
+   
+       setBFSColor(color) {
+           this.bfsColor = color;
+       }
+   
+       setPred(pred) {
+           this.pred = pred;
+       }
+   
+       getPred() {
+           return this.pred;
+       }
+   }
+   
+   class Maze {
+       constructor() {
+           this.contents = [];
+           this.start = null;
+           this.end = null;
+       }
+   
+       initContents() {
+           for (let i = 0; i < numRows; i++) {
+               this.contents.push([]);
+               for (let j = 0; j < numCols; j++) {
+                   const cell = new Cell(i === 0 || i === numRows - 1 || j === 0 || j === numCols - 1 ? "#" : " ");
+                   cell.setPos(i, j);
+                   this.contents[i].push(cell);
+               }
+           }
+       }
+   
+       generator([x1, x2], [y1, y2]) {
+           const width = x2 - x1;
+           const height = y2 - y1;
+           if (width >= height) {
+               if (x2 - x1 > 3) {
+                   const bisection = Math.ceil((x1 + x2) / 2);
+                   const randomPassage = Math.floor(Math.random() * (y2 - y1 - 1)) + y1 + 1;
+                   for (let i = y1 + 1; i < y2; i++) {
+                       if (i !== randomPassage) {
+                           this.contents[i][bisection].value = "#";
+                       }
+                   }
+                   this.generator([x1, bisection], [y1, y2]);
+                   this.generator([bisection, x2], [y1, y2]);
+               }
+           } else {
+               if (y2 - y1 > 3) {
+                   const bisection = Math.ceil((y1 + y2) / 2);
+                   const randomPassage = Math.floor(Math.random() * (x2 - x1 - 1)) + x1 + 1;
+                   for (let i = x1 + 1; i < x2; i++) {
+                       if (i !== randomPassage) {
+                           this.contents[bisection][i].value = "#";
+                       }
+                   }
+                   this.generator([x1, x2], [y1, bisection]);
+                   this.generator([x1, x2], [bisection, y2]);
+               }
+           }
+       }
+   
+       render() {
+           ctx.clearRect(0, 0, WIDTH, HEIGHT);
+           const cellSize = WIDTH / numCols;
+           for (let row = 0; row < numRows; row++) {
+               for (let col = 0; col < numCols; col++) {
+                   const cell = this.contents[row][col];
+                   ctx.fillStyle = cell.getColor();
+                   ctx.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
+                   ctx.strokeRect(col * cellSize, row * cellSize, cellSize, cellSize);
+               }
+           }
+       }
+   
+       getEmptySlots() {
+           const emptySlots = [];
+           for (let row = 0; row < numRows; row++) {
+               for (let col = 0; col < numCols; col++) {
+                   if (this.contents[row][col].value === " ") {
+                       emptySlots.push(this.contents[row][col]);
+                   }
+               }
+           }
+           return emptySlots;
+       }
+   
+       initPoints() {
+           const emptySlots = this.getEmptySlots();
+           if (emptySlots.length > 1) {
+               this.start = emptySlots[0];
+               this.end = emptySlots[emptySlots.length - 1];
+               this.start.value = "S";
+               this.end.value = "E";
+           }
+       }
+   
+       async shortestBFS() {
+           const start = this.start;
+           start.setDistance(0);
+           start.setPred(null);
+           const cellQueue = [start];
+           while (cellQueue.length > 0) {
+               const currentCell = cellQueue.shift();
+               if(currentCell==this.end)
+                    break;
+               
+               for (const [row, col] of currentCell.getNeighbors()) {
+                   if (row >= 0 && col >= 0 && row < numRows && col < numCols) {
+                       const cell = this.contents[row][col];
+                       if (cell.getBFSColor() === "white" && cell.value !== "#") {
+                           cell.setBFSColor("gray");
+                           cell.setDistance(currentCell.getDistance() + 1);
+                           cell.setPred(currentCell);
+                           cellQueue.push(cell);
+                           if(cell.value!="E")
+                                cell.value='V';
+                           this.render();
+                           await new Promise(resolve => setTimeout(resolve, 50));
+                       }
+                   }
+               }
+               currentCell.setBFSColor("black");
+           }
+           if (this.end.getPred() === null) {
+               return false; 
+           }
+           return true;
+       }
+   
+       bfsTraverse(currentCell) {
+           currentCell.value = "P";
+           this.render();
+       }
+   
+       clearSolution() {
+           for (const row of this.contents) {
+               for (const element of row) {
+                   if (element.value === "P") {
+                       element.value = " ";
+                   }
+               }
+           }
+       }
+   }
+   
+   const generate = document.getElementById("generate");
+   const solve = document.getElementById("solve");
+   const clear = document.getElementById("clear");
+   
+   let myMaze = new Maze();
+   
+   function generator() {
+       myMaze = new Maze();
+       myMaze.initContents();
+       myMaze.generator([0, numRows - 1], [0, numCols - 1]);
+       myMaze.initPoints();
+       myMaze.render();
+   }
+   
+   generator();
+   
+   generate.addEventListener("click", generator);
+   
+   solve.addEventListener("click", async () => {
+       const pathFound = await myMaze.shortestBFS();
+       if (!pathFound) {
+           alert("No path found from start to end!");
+           return;
+       }
+       let currentCell = myMaze.end.getPred();
+       function animate() {
+           if (currentCell && currentCell !== myMaze.start) {
+               myMaze.bfsTraverse(currentCell);
+               currentCell = currentCell.getPred();
+               requestAnimationFrame(animate);
+           }
+       }
+       requestAnimationFrame(animate);
+   });
+   
+   clear.addEventListener("click", () => {
+       myMaze.clearSolution();
+       myMaze.render();
+   });
+   
+   function updateTime() {
+       const now = new Date();
+       document.getElementById('current-time').textContent = now.toLocaleTimeString();
+   }
+   
+   setInterval(updateTime, 1000);
+   updateTime();
+       </script>
+</body>
+</html>
+

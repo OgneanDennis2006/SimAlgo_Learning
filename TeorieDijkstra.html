@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimAlgo Learning - Teorie Dijkstra</title>
+    <link rel="stylesheet" href="TeorieDijkstra.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                <img src="logo.png" alt="SimAlgo Learning Logo" class="logo-img">
+                SimAlgo Learning
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="home.html">HOME</a></li>
+                    <li><a href="Algoritmi.html">Algoritmi</a></li>
+                    <li><a href="Despre.html">Despre noi</a></li>
+                </ul>
+              
+            </nav>
+            <button class="nav-toggle" aria-label="toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="content-column">
+                <h1>Dijkstra's Algorithm</h1>
+                <div id="teorie" class="content-section">
+                    <h2>Teorie</h2>
+                    <div class="scrollable-content">
+                        <p>Ce este si ce face acest algoritm?<br>
+                        Algoritmul lui Dijkstra este un algoritm foarte popular in Teoria Grafurilor. Acesta determina lungimea cea mai scurta de la un nod de start „N” la toate celalalte noduri ale grafului. O mica precizare foarte importanta este faptul ca algoritmul lui Dijkstra functioneaza numai pe grafurile orientate (adica cele „cu un singur sens”). De asemenea, fiecare muchie a grafului trebuie sa aiba atasat un cost.<br><br>
+
+                        Daca doresti sa determini drumul minim de la un nod X la un nod Y, si te intereseaza doar ca numarul de noduri sa fie minim, poti atasa fiecarei muchii costul „1”. Drumul de cost minim intre doua noduri obtinut in urma aplicarii algoritmului lui Dijkstra va avea si numar minim de arce din moment ce toate arcele au acelasi cost.</p>
+                        <h2>Prezentarea generala</h2>
+                        <p>Algoritmul lui Dijkstra porneste de la un graf orientat si ponderat (fiecare muchie are un cost). Dupa aceea, programatorul alege nodul de start, iar algoritmul va calcula distanta minima de la nodul de start catre toate celalalte noduri.<br><br>
+
+                        Dupa executarea acestui algoritm, rezultatul va fi stocat intr-un vector „distanta” cu „N” elemente. Unde distanta[i] va reprezenta drumul minim de la nodul nostru de start catre nodul cu numarul i.</p>
+                        <h2>Problema Dijkstra – infoarena.ro</h2>
+                        <p>In continuare vom rezolva impreuna problema Dijkstra de pe infoarena.ro. Varianta pe care urmeaza sa o abordam foloseste o coada de prioritati (heap-uri) pentru a obtine punctajul maxim.</p>
+                        <h2>Algoritmul lui Dijkstra</h2>
+                        <p>Creeam un vector int D[NMax]; cu semnificatia: D[i] – distanta minima intre nodul de start si nodul numarul i. Initial setam tot vectorul pe infinit, iar D[Start] il vom seta pe 0.<br><br>
+
+                        Marcam toate nodurile ca fiind nevizitate. Si creeam o coada de prioritate (priority queue / heap-uri) ce o vom folosii pentru acest algoritm. Punem nodul de start in coada.<br><br>
+
+                        Luam nodul – cu valoarea D[nod] minima – din coada si il marcam ca vizitat.<br><br>
+
+                        Se actualizeaza distantele minime ale vecinilor nodului curent.<br><br>
+
+                        Eliminam nodul curent din coada<br><br>
+
+                        Se repeta de la punctul 3 pana cand toate nodurile sunt vizitate.</p>
+                        <h2>Ce face coada de prioritate / Heap-ul ? Ce rol are?</h2>
+                        <p>O coada de prioritate este un tip „special” de coada. Principiul este la fel, poti sa introduci elemente in coada, sa le accesezi si sa le elimini.<br><br>
+
+                        Doar ca in acest caz valorile intra si ies din coada in functie de „prioritatea” pe care o au.</p>
+                        <pre><code class="code-block">
+struct compara
+{
+    bool operator()(int x, int y)
+    {
+        return D[x] > D[y];
+    }
+};
+priority_queue<int, vector<int>, compara> Coada;
+                        </code></pre>
+                        <p>In primele randuri am declarat o functie care compare distantele a doua noduri x si y. Avem nevoie sa modificam aceasta proprietate a cozii de prioritate pentru a rezolva problema.<br><br>
+
+                        priority_queue<> are 3 parametrii:</p>
+                        <ol>
+                            <li>Primul paramestru este un obiect care construieste coada. In cazul nostru sunt numere, asa ca am scris int</li>
+                            <li>Al doilea parametru este structura in care adunam toate obiectele din coada, in cazul nostru: un vector de int-uri</li>
+                            <li>Ultimul parametru (care este optional) este o functie ce returneaza TRUE sau FALSE in functie de interogarile noastre</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div class="visualization-column">
+                <div id="controls">
+                    <button id="generate">Reset</button>
+                    <button id="solve">Start</button>
+                    <button id="clear">Pause</button>
+                </div>
+                <canvas></canvas>
+            </div>
+            </div>
+        </div>
+        <div class="source-code">
+            <h2>Source Code:</h2>
+            <pre><code class="code-block">
+#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+#include &lt;queue&gt;
+#include &lt;vector&gt;
+
+using namespace std;
+
+ifstream fin("dijkstra.in");
+ofstream fout("dijkstra.out");
+
+const int NMax = 50005;
+const int oo = (1 &lt;&lt; 30);
+
+int N, M;
+int D[NMax];
+bool InCoada[NMax];
+
+vector&lt;pair&lt;int,int&gt;&gt; G[NMax];
+
+struct compara
+{
+    bool operator()(int x, int y)
+    {
+        return D[x] &gt; D[y];
+    }
+};
+
+priority_queue&lt;int, vector&lt;int&gt;, compara&gt; Coada;
+
+void Citeste()
+{
+    fin &gt;&gt; N &gt;&gt; M;
+    for(int i = 1; i &lt;= M; i++)
+    {
+        int x, y, c;
+        fin &gt;&gt; x &gt;&gt; y &gt;&gt; c;
+        G[x].push_back(make_pair(y,c));
+    }
+}
+
+void Dijkstra(int nodStart)
+{
+    for(int i = 1; i &lt;= N; i++)
+        D[i] = oo;
+
+    D[nodStart] = 0;
+
+    Coada.push(nodStart);
+    InCoada[nodStart] = true;
+
+    while(!Coada.empty())
+    {
+        int nodCurent = Coada.top();
+        Coada.pop();
+
+        InCoada[nodCurent] = false;
+        for(size_t i = 0; i &lt; G[nodCurent].size(); i++)
+        {
+            int Vecin = G[nodCurent][i].first;
+            int Cost = G[nodCurent][i].second;
+            if(D[nodCurent] + Cost &lt; D[Vecin])
+            {
+                D[Vecin] = D[nodCurent] + Cost;
+                if(InCoada[Vecin] == false)
+                {
+                    Coada.push(Vecin);
+                    InCoada[Vecin] = true;
+                }
+            }
+        }
+    }
+}
+
+void Afiseaza()
+{
+    for(int i = 2; i &lt;= N; i++)
+    {
+        if(D[i] != oo)
+            fout &lt;&lt; D[i] &lt;&lt; " ";
+        else
+            fout &lt;&lt; "0 ";
+    }
+}
+
+int main()
+{
+    Citeste();
+    Dijkstra(1);
+    Afiseaza();
+}
+            </code></pre>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-left">&copy; 2024 SimAlgo Learning</p>
+            <p class="footer-center">Made with <span class="heart">❤</span></p>
+            <p class="footer-right" id="current-time"></p>
+        </div>
+    </footer>
+
+    <script>
+    const canvas = document.getElementsByTagName("canvas")[0];
+   const ctx = canvas.getContext("2d");
+   const WIDTH = 500;
+   const HEIGHT = 500;
+   const numRows = 15;
+   const numCols = 15;
+   canvas.width = WIDTH;
+   canvas.height = HEIGHT;
+   
+   class Cell {
+       constructor(cellType) {
+           this.value = cellType;
+           this.row = null;
+           this.col = null;
+           this.distance = null;
+           this.pred = null;
+           this.bfsColor = "white";
+       }
+   
+       getColor() {
+           switch (this.value) {
+               case "V":
+                   return "#ADD8E6";
+               case "#":
+                   return "#000000";
+               case " ":
+                   return "#FFFFFF";
+               case "S":
+                   return "#008000";
+               case "E":
+                   return "#FF0000";
+               case "P":
+                   return "#800080";
+               case "gray":
+                   return "lightblue";
+               default:
+                   return "#FFFF00";
+           }
+       }
+   
+       setPos(row, col) {
+           this.row = row;
+           this.col = col;
+       }
+   
+       getNeighbors() {
+           const row = this.row;
+           const col = this.col;
+           return [
+               [row - 1, col],
+               [row + 1, col],
+               [row, col - 1],
+               [row, col + 1]
+           ];
+       }
+   
+       setDistance(distance) {
+           this.distance = distance;
+       }
+   
+       getDistance() {
+           return this.distance;
+       }
+   
+       getBFSColor() {
+           return this.bfsColor;
+       }
+   
+       setBFSColor(color) {
+           this.bfsColor = color;
+       }
+   
+       setPred(pred) {
+           this.pred = pred;
+       }
+   
+       getPred() {
+           return this.pred;
+       }
+   }
+   
+   class Maze {
+       constructor() {
+           this.contents = [];
+           this.start = null;
+           this.end = null;
+       }
+   
+       initContents() {
+           for (let i = 0; i < numRows; i++) {
+               this.contents.push([]);
+               for (let j = 0; j < numCols; j++) {
+                   const cell = new Cell(i === 0 || i === numRows - 1 || j === 0 || j === numCols - 1 ? "#" : " ");
+                   cell.setPos(i, j);
+                   this.contents[i].push(cell);
+               }
+           }
+       }
+   
+    
+   
+       render() {
+           ctx.clearRect(0, 0, WIDTH, HEIGHT);
+           const cellSize = WIDTH / numCols;
+           for (let row = 0; row < numRows; row++) {
+               for (let col = 0; col < numCols; col++) {
+                   const cell = this.contents[row][col];
+                   ctx.fillStyle = cell.getColor();
+                   ctx.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
+                   ctx.strokeRect(col * cellSize, row * cellSize, cellSize, cellSize);
+               }
+           }
+       }
+   
+       getEmptySlots() {
+           const emptySlots = [];
+           for (let row = 0; row < numRows; row++) {
+               for (let col = 0; col < numCols; col++) {
+                   if (this.contents[row][col].value === " ") {
+                       emptySlots.push(this.contents[row][col]);
+                   }
+               }
+           }
+           return emptySlots;
+       }
+   
+       initPoints() {
+           
+       }
+   
+       async shortestBFS() {
+           const start = this.start;
+           start.setDistance(0);
+           start.setPred(null);
+           const cellQueue = [start];
+           const gasit=false;
+           while (cellQueue.length > 0 && !stopR) {
+               const currentCell = cellQueue.shift();
+               if(currentCell==this.end)
+                    break;
+                if(gasit)
+                    break;
+               
+               for (const [row, col] of currentCell.getNeighbors()) {
+                   if (row >= 0 && col >= 0 && row < numRows && col < numCols) {
+                       const cell = this.contents[row][col];
+                       
+                        if (cell.getBFSColor() === "white" && cell.value !== "#") {
+                           cell.setBFSColor("gray");
+                           cell.setDistance(currentCell.getDistance() + 1);
+                           cell.setPred(currentCell);
+                           cellQueue.push(cell);
+                           if(cell.value!="E")
+                                cell.value='V';
+                           this.render();
+                           await new Promise(resolve => setTimeout(resolve, 50));
+                       }
+                   }
+               }
+               currentCell.setBFSColor("black");
+           }
+           if (this.end.getPred() === null) {
+               return false; 
+           }
+           return true;
+       }
+   
+       bfsTraverse(currentCell) {
+           currentCell.value = "P";
+           this.render();
+       }
+   
+       clearSolution() {
+           for (const row of this.contents) {
+               for (const element of row) {
+                   if (element.value === "P") {
+                       element.value = " ";
+                   }
+               }
+           }
+       }
+   }
+    let stopR=false;
+   const Reset = document.getElementById("generate");
+   const solve = document.getElementById("solve");
+   const pause = document.getElementById("clear");
+   let Start=false;
+   let End=false;
+   let myMaze = new Maze();
+   
+   function generator() {
+        Start=false;
+         End=false;
+       myMaze = new Maze();
+       myMaze.initContents();
+       myMaze.render();
+   }
+   
+   generator();
+
+function getMousePosition(canvas, event) {
+            let rect = canvas.getBoundingClientRect();
+            let x = event.clientX - rect.left;
+            let y = event.clientY - rect.top;
+            const cellSize=WIDTH/numCols;
+            const col=Math.floor(x/cellSize);
+            const row=Math.floor(y/cellSize);
+            const cell=myMaze.contents[row][col];
+            if(!Start && cell.value==" ")
+            {
+                Start=true;   
+                cell.value="S";
+                myMaze.start=cell;
+            }
+            else if(!End && cell.value==" ")
+            {
+                End=true;
+                cell.value="E";
+                myMaze.end=cell;
+            }
+            else if(cell.value==" "){
+                cell.value="#";
+            }
+            
+            myMaze.render();
+        }
+ 
+        let canvasElem = document.querySelector("canvas");
+ 
+        canvasElem.addEventListener("mousedown", function (e) {
+            getMousePosition(canvasElem, e);
+        }); 
+   Reset.addEventListener("click", generator);
+   
+   solve.addEventListener("click", async () => {
+    myMaze.initPoints();
+        stopR=false;   
+    const pathFound = await myMaze.shortestBFS();
+        if(stopR)
+        return;
+       if (!pathFound) {
+           alert("No path found from start to end!");
+           return;
+       }
+       let currentCell = myMaze.end.getPred();
+       function animate() {
+           if (currentCell && currentCell !== myMaze.start) {
+               myMaze.bfsTraverse(currentCell);
+               currentCell = currentCell.getPred();
+               requestAnimationFrame(animate);
+           }
+       }
+       requestAnimationFrame(animate);
+   });
+   
+   clear.addEventListener("click", () => {
+       stopR=true;
+   });
+   
+   function updateTime() {
+       const now = new Date();
+       document.getElementById('current-time').textContent = now.toLocaleTimeString();
+   }
+   
+   setInterval(updateTime, 1000);
+   updateTime();
+       </script>
+</body>
+</html>

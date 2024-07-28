@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimAlgo Learning - Teorie Bubble Sort</title>
+    <link rel="stylesheet" href="TeorieBubbleSort.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                <img src="logo.png" alt="SimAlgo Learning Logo" class="logo-img">
+                SimAlgo Learning
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="home.html">HOME</a></li>
+                    <li><a href="Algoritmi.html">Algoritmi</a></li>
+                    <li><a href="Despre.html">Despre noi</a></li>
+                </ul>
+               
+            </nav>
+            <button class="nav-toggle" aria-label="toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="content-column">
+                <h1>Bubble Sort</h1>
+                <div id="teorie" class="content-section">
+                    <h2>Teorie</h2>
+                    <p>Metoda bulelor, cunoscută și sub numele BubbleSort, se bazează pe următoare idee:</p>
+                    <p>Fie un vector X[] cu n elemente</p>
+                    <p>Parcurgem vectorul și pentru oricare două elemente învecinate care nu sunt în ordinea dorită, le interschimbăm valorile</p>
+                    <p>După o singură parcurgere, vectorul nu se va sorta, dar putem repeta parcurgerea</p>
+                    <p>Dacă la o parcurgere nu se face nicio interschimbare, vectorul este sortat</p>
+                    <p>O reprezentare a algoritmului este:</p>
+                    <p>cat timp vectorul nu este sortat</p>
+                    <p>presupunem că vectorul este sortat</p>
+                    <p>parcurgem vectorul</p>
+                    <p>dacă două elemente învecinate nu sunt în ordinea dorită</p>
+                    <p>le interschimbăm</p>
+                    <p>schimbăm presupunerea inițială</p>
+                    
+                </div>
+            </div>
+            <div class="visualization-column">
+                <div id="visualization">
+                    <div class="controls">
+                        <button onclick="shuffleArray()" class="button">Shuffle</button>
+                        <button onclick="startSort()" class="button">Start</button>
+                        <button onclick="pauseSort()" class="button">Pause</button>
+                    </div>
+                    <div id="bars"></div>
+                </div>
+            </div>
+        </div>
+        <div class="source-code">
+            <pre><code class="code-block">
+    #include &ltiostream>
+
+    using namespace std;
+    int n,v[1001];
+    int main()
+    {
+        cin>>n;
+        for(int i=1;i&lt=n;++i)
+        {
+            cin>>v[i];
+        }
+         bool sortat;
+        do{
+        sortat=true;
+       for(int i=1;i &lt n;++i)
+       {
+           if(v[i]>v[i+1])
+           {
+               int aux=v[i+1];
+               v[i+1]=v[i];
+               v[i]=aux;
+               sortat=false;
+    
+           }
+       }
+        }while(!sortat);
+       for(int i=1;i&lt=n;++i)
+        {
+            cout&lt&ltv[i]&lt&lt" ";
+        }
+    
+        return 0;
+    }
+                                    </code></pre>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-left">&copy; 2024 SimAlgo Learning</p>
+            <p class="footer-center">Made with <span class="heart">❤</span></p>
+            <p class="footer-right" id="current-time"></p>
+        </div>
+    </footer>
+
+    <script>
+        let array = [];
+        let isPaused = false;
+        let currentIndex = 0;
+        let sortedIndex = 0;
+
+        function createBars() {
+            const barsContainer = document.getElementById('bars');
+            barsContainer.innerHTML = '';
+            array.forEach((value, index) => {
+                const barContainer = document.createElement('div');
+                barContainer.classList.add('bar-container');
+
+                const bar = document.createElement('div');
+                bar.style.height = `${value}px`;
+                bar.classList.add('bar');
+
+                const valueLabel = document.createElement('span');
+                valueLabel.textContent = value;
+                valueLabel.classList.add('value-label');
+
+                const indexLabel = document.createElement('div');
+                indexLabel.textContent = `[${index}]`;
+                indexLabel.classList.add('index-label');
+
+                barContainer.appendChild(bar);
+                bar.appendChild(valueLabel);
+                barContainer.appendChild(indexLabel);
+                barsContainer.appendChild(barContainer);
+            });
+        }
+
+        function shuffleArray() {
+            array = Array.from({ length: 15 }, () => Math.floor(Math.random() * 150) + 50);
+            currentIndex = 0;
+            sortedIndex = 0;
+            createBars();
+        }
+
+        async function bubbleSortStep() {
+            if (isPaused || sortedIndex >= array.length - 1) {
+                return;
+            }
+
+            if (currentIndex < array.length - 1 - sortedIndex) {
+                const bars = document.querySelectorAll('.bar');
+                bars[currentIndex].style.backgroundColor = 'red';
+                bars[currentIndex + 1].style.backgroundColor = 'red';
+                if (array[currentIndex] > array[currentIndex + 1]) {
+                    let temp = array[currentIndex];
+                    array[currentIndex] = array[currentIndex + 1];
+                    array[currentIndex + 1] = temp;
+                    bars[currentIndex].style.height = `${array[currentIndex]}px`;
+                    bars[currentIndex + 1].style.height = `${array[currentIndex + 1]}px`;
+                    bars[currentIndex].querySelector('.value-label').textContent = array[currentIndex];
+                    bars[currentIndex + 1].querySelector('.value-label').textContent = array[currentIndex + 1];
+                }
+                await new Promise(resolve => setTimeout(resolve, 300)); // Speed up the sorting
+                bars[currentIndex].style.backgroundColor = 'turquoise';
+                bars[currentIndex + 1].style.backgroundColor = 'turquoise';
+                currentIndex++;
+            } else {
+                currentIndex = 0;
+                sortedIndex++;
+            }
+
+            requestAnimationFrame(bubbleSortStep);
+        }
+
+        function startSort() {
+            isPaused = false;
+            bubbleSortStep();
+        }
+
+        function pauseSort() {
+            isPaused = true;
+        }
+
+        shuffleArray(); 
+
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            document.getElementById('current-time').textContent = timeString;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+    </script>
+</body>
+</html>

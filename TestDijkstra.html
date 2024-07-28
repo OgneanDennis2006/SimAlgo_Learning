@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimAlgo Learning - Test Dijkstra</title>
+    <link rel="stylesheet" href="TestDijkstra.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                <img src="logo.png" alt="SimAlgo Learning Logo" class="logo-img">
+                SimAlgo Learning
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="home.html">HOME</a></li>
+                    <li><a href="Algoritmi.html">Algoritmi</a></li>
+                    <li><a href="Despre.html">Despre noi</a></li>
+                </ul>
+            </nav>
+            <button class="nav-toggle" aria-label="toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <h1>Test Dijkstra</h1>
+            <form id="quiz-form">
+                <div class="question">
+                    <h3>1. Ce este algoritmul lui Dijkstra?</h3>
+                    <label><input type="radio" name="q1" value="a"> Algoritm de sortare</label>
+                    <label><input type="radio" name="q1" value="b"> Algoritm de găsire a celui mai scurt drum</label>
+                    <label><input type="radio" name="q1" value="c"> Algoritm de căutare în adâncime</label>
+                    <label><input type="radio" name="q1" value="d"> Algoritm de parcurgere în lățime</label>
+                </div>
+                <div class="question">
+                    <h3>2. Pe ce tip de graf funcționează algoritmul lui Dijkstra?</h3>
+                    <label><input type="radio" name="q2" value="a"> Grafuri orientate și neorientate</label>
+                    <label><input type="radio" name="q2" value="b"> Grafuri neponderate</label>
+                    <label><input type="radio" name="q2" value="c"> Grafuri ponderate și orientate</label>
+                    <label><input type="radio" name="q2" value="d"> Grafuri ciclice</label>
+                </div>
+                <div class="question">
+                    <h3>3. Care este scopul algoritmului lui Dijkstra?</h3>
+                    <label><input type="radio" name="q3" value="a"> Să găsească toate componentele conexe ale grafului</label>
+                    <label><input type="radio" name="q3" value="b"> Să determine drumul minim de la un nod la toate celelalte noduri</label>
+                    <label><input type="radio" name="q3" value="c"> Să determine dacă un graf este bipartit</label>
+                    <label><input type="radio" name="q3" value="d"> Să găsească cel mai lung drum într-un graf</label>
+                </div>
+                <div class="question">
+                    <h3>4. Cum este inițializat vectorul de distanțe în algoritmul lui Dijkstra?</h3>
+                    <label><input type="radio" name="q4" value="a"> Toate valorile sunt setate la zero</label>
+                    <label><input type="radio" name="q4" value="b"> Toate valorile sunt setate la infinit, cu excepția nodului de start care este setat la zero</label>
+                    <label><input type="radio" name="q4" value="c"> Toate valorile sunt setate la unu</label>
+                    <label><input type="radio" name="q4" value="d"> Toate valorile sunt setate la valoarea nodului de start</label>
+                </div>
+                <div class="question">
+                    <h3>5. Ce structură de date este folosită pentru a extrage nodul cu distanța minimă?</h3>
+                    <label><input type="radio" name="q5" value="a"> Stivă</label>
+                    <label><input type="radio" name="q5" value="b"> Coadă de priorități</label>
+                    <label><input type="radio" name="q5" value="c"> Listă</label>
+                    <label><input type="radio" name="q5" value="d"> Arbore binar de căutare</label>
+                </div>
+                <div class="question">
+                    <h3>6. Ce reprezintă vectorul D în algoritmul lui Dijkstra?</h3>
+                    <label><input type="radio" name="q6" value="a"> Vectorul de distanțe minime</label>
+                    <label><input type="radio" name="q6" value="b"> Vectorul de noduri vizitate</label>
+                    <label><input type="radio" name="q6" value="c"> Vectorul de părinți ai nodurilor</label>
+                    <label><input type="radio" name="q6" value="d"> Vectorul de muchii ale grafului</label>
+                </div>
+                <div class="question">
+                    <h3>7. Ce face coada de priorități în algoritmul lui Dijkstra?</h3>
+                    <label><input type="radio" name="q7" value="a"> Stochează nodurile în ordinea vizitării</label>
+                    <label><input type="radio" name="q7" value="b"> Stochează nodurile în funcție de distanțele minime curente</label>
+                    <label><input type="radio" name="q7" value="c"> Stochează toate nodurile grafului</label>
+                    <label><input type="radio" name="q7" value="d"> Stochează toate muchiile grafului</label>
+                </div>
+                <div class="question">
+                    <h3>8. Cum este actualizată distanța minimă a vecinilor unui nod curent?</h3>
+                    <label><input type="radio" name="q8" value="a"> Prin adăugarea costului muchiei la distanța curentă</label>
+                    <label><input type="radio" name="q8" value="b"> Prin scăderea costului muchiei din distanța curentă</label>
+                    <label><input type="radio" name="q8" value="c"> Prin împărțirea distanței curente la costul muchiei</label>
+                    <label><input type="radio" name="q8" value="d"> Prin înmulțirea distanței curente cu costul muchiei</label>
+                </div>
+                <div class="question">
+                    <h3>9. Ce se întâmplă dacă un nod este deja vizitat?</h3>
+                    <label><input type="radio" name="q9" value="a"> Este adăugat din nou în coada de priorități</label>
+                    <label><input type="radio" name="q9" value="b"> Este ignorat</label>
+                    <label><input type="radio" name="q9" value="c"> Este șters din vectorul de distanțe</label>
+                    <label><input type="radio" name="q9" value="d"> Este actualizat cu o nouă distanță</label>
+                </div>
+                <div class="question">
+                    <h3>10. Ce parametri sunt utilizați pentru a defini o coadă de priorități în algoritmul lui Dijkstra?</h3>
+                    <label><input type="radio" name="q10" value="a"> Tipul de date, structura de stocare, funcția de comparație</label>
+                    <label><input type="radio" name="q10" value="b"> Tipul de date, funcția de inserare, funcția de ștergere</label>
+                    <label><input type="radio" name="q10" value="c"> Structura de stocare, funcția de extragere, funcția de comparare</label>
+                    <label><input type="radio" name="q10" value="d"> Funcția de inserare, funcția de ștergere, funcția de comparare</label>
+                </div>
+                <div class="submit-container">
+                    <button type="button" class="button" onclick="submitQuiz()">Submit</button>
+                </div>
+                <div id="result"></div>
+                <div id="unanswered-questions" style="color: red;"></div>
+            </form>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-left">&copy; 2024 SimAlgo Learning</p>
+            <p class="footer-center">Made with <span class="heart">❤</span></p>
+            <p class="footer-right" id="current-time"></p>
+        </div>
+    </footer>
+
+    <script>
+        const correctAnswers = {
+            q1: 'b',
+            q2: 'c',
+            q3: 'b',
+            q4: 'b',
+            q5: 'b',
+            q6: 'a',
+            q7: 'b',
+            q8: 'a',
+            q9: 'b',
+            q10: 'a'
+        };
+
+        function submitQuiz() {
+            let score = 0;
+            let unanswered = 0;
+            for (const [question, correctAnswer] of Object.entries(correctAnswers)) {
+                const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+                const options = document.querySelectorAll(`input[name="${question}"]`);
+
+                if (!selectedOption) {
+                    unanswered++;
+                    continue;
+                }
+
+                if (selectedOption.value === correctAnswer) {
+                    score++;
+                    selectedOption.parentElement.classList.add('correct');
+                } else {
+                    selectedOption.parentElement.classList.add('incorrect');
+                    options.forEach(option => {
+                        if (option.value === correctAnswer) {
+                            option.parentElement.classList.add('correct');
+                        }
+                    });
+                }
+            }
+
+            const resultContainer = document.getElementById('result');
+            resultContainer.innerHTML = `Scorul tău este: ${score} / 10`;
+            const unansweredContainer = document.getElementById('unanswered-questions');
+            if (unanswered > 0) {
+                unansweredContainer.innerHTML = `Întrebări rămase: ${unanswered}`;
+            } else {
+                unansweredContainer.innerHTML = '';
+            }
+
+            resultContainer.className = '';
+            if (score <= 3) {
+                resultContainer.classList.add('red');
+            } else if (score <= 6) {
+                resultContainer.classList.add('orange');
+            } else if (score <= 8) {
+                resultContainer.classList.add('yellow');
+            } else {
+                resultContainer.classList.add('green');
+            }
+        }
+
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            document.getElementById('current-time').textContent = timeString;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('nav-links_visible');
+        });
+
+        document.querySelectorAll('input[type="radio"]').forEach(input => {
+            input.addEventListener('change', () => {
+                const name = input.name;
+                document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                    radio.parentElement.classList.remove('selected');
+                });
+                input.parentElement.classList.add('selected');
+            });
+        });
+    </script>
+</body>
+</html>
