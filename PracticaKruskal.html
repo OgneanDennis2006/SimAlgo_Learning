@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimAlgo Learning - Practică Kruskal</title>
+    <link rel="stylesheet" href="PracticaKruskal.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                <img src="logo.png" alt="SimAlgo Learning Logo" class="logo-img">
+                SimAlgo Learning
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="home.html">HOME</a></li>
+                    <li><a href="Algoritmi.html">Algoritmi</a></li>
+                    <li><a href="Despre.html">Despre noi</a></li>
+                </ul>
+            </nav>
+            <button class="nav-toggle" aria-label="toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <h1>Practica Kruskal</h1>
+            <h2>Probleme Propuse</h2>
+            <div class="problems">
+                <div class="problem-category">
+                    <h3>Probleme Medii</h3>
+                    <ul>
+                        <li><a href="https://infoarena.ro/problema/apm">🟠 https://infoarena.ro/problema/apm</a></li>
+                        <li><a href="http://campion.edu.ro/arhiva/index.php?page=problem&action=view&id=310">🟠 http://campion.edu.ro/arhiva/index.php?page=problem&action=view&id=310</a></li>
+                        <li><a href="http://campion.edu.ro/arhiva/index.php?page=problem&action=view&id=960">🟠 http://campion.edu.ro/arhiva/index.php?page=problem&action=view&id=960</a></li>
+                        <li><a href="https://www.pbinfo.ro/probleme/616/zapada">🟠 https://www.pbinfo.ro/probleme/616/zapada</a></li>
+                        <li><a href="https://codeforces.com/contest/609/problem/E">🟠 https://codeforces.com/contest/609/problem/E</a></li>
+                        <li><a href="https://www.infoarena.ro/problema/rusuoaica">🟠 https://www.infoarena.ro/problema/rusuoaica</a></li>
+                    </ul>
+                </div>
+                <div class="problem-category">
+                    <h3>Probleme Grele</h3>
+                    <ul>
+                        <li><a href="https://www.pbinfo.ro/probleme/2127/ninjago">🟠 https://www.pbinfo.ro/probleme/2127/ninjago</a></li>
+                        <li><a href="https://codeforces.com/contest/125/problem/E">🟠 https://codeforces.com/contest/125/problem/E</a></li>
+                        <li><a href="https://www.infoarena.ro/problema/radiatie">🟠 https://www.infoarena.ro/problema/radiatie</a></li>
+                        <li><a href="https://www.infoarena.ro/problema/oracol">🟠 https://www.infoarena.ro/problema/oracol</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-left">&copy; 2024 SimAlgo Learning</p>
+            <p class="footer-center">Made with <span class="heart">❤</span></p>
+            <p class="footer-right" id="current-time"></p>
+        </div>
+    </footer>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            document.getElementById('current-time').textContent = timeString;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('nav-links_visible');
+        });
+    </script>
+</body>
+</html>

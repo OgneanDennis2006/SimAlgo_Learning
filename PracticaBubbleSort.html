@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimAlgo Learning - Practică BubbleSort</title>
+    <link rel="stylesheet" href="PracticaBubbleSort.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                <img src="logo.png" alt="SimAlgo Learning Logo" class="logo-img">
+                SimAlgo Learning
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="home.html">HOME</a></li>
+                    <li><a href="Algoritmi.html">Algoritmi</a></li>
+                    <li><a href="Despre.html">Despre noi</a></li>
+                </ul>
+            </nav>
+            <button class="nav-toggle" aria-label="toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <h1>Practica Algoritmi Sortare</h1>
+            <h2>Probleme Propuse</h2>
+            <div class="problems">
+                <div class="problem-category">
+                    <h3>Probleme Ușoare</h3>
+                    <ul>
+                        <li><a href="https://www.pbinfo.ro/probleme/509/ordonare">🟠 https://www.pbinfo.ro/probleme/509/ordonare</a></li>
+                        <li><a href="https://www.pbinfo.ro/probleme/180/sortminmax">🟠 https://www.pbinfo.ro/probleme/180/sortminmax</a></li>
+                        <li><a href="https://www.pbinfo.ro/probleme/86/halfsort">🟠 https://www.pbinfo.ro/probleme/86/halfsort</a></li>
+                        <li><a href="https://www.pbinfo.ro/probleme/164/halfsort2">🟠 https://www.pbinfo.ro/probleme/164/halfsort2</a></li>
+                        <li><a href="https://www.pbinfo.ro/probleme/272/paresort">🟠 https://www.pbinfo.ro/probleme/272/paresort</a></li>
+                    </ul>
+                </div>
+                <div class="problem-category">
+                    <h3>Probleme Medii</h3>
+                    <ul>
+                        <li><a href="https://www.pbinfo.ro/probleme/513/ksort1">🟠 https://www.pbinfo.ro/probleme/513/ksort1</a></li>
+                        <li><a href="https://www.pbinfo.ro/probleme/3356/alfa">🟠 https://www.pbinfo.ro/probleme/3356/alfa</a></li>
+                        <li><a href="https://www.pbinfo.ro/probleme/2412/submat1">🟠 https://www.pbinfo.ro/probleme/2412/submat1</a></li>
+                        <li><a href="https://www.pbinfo.ro/probleme/1380/pluton">🟠 https://www.pbinfo.ro/probleme/1380/pluton</a></li>
+                        <li><a href="https://www.infoarena.ro/problema/grozavesti">🟠 https://www.infoarena.ro/problema/grozavesti</a></li>
+                        <li><a href="https://www.pbinfo.ro/probleme/605/crb">🟠 https://www.pbinfo.ro/probleme/605/crb</a></li>
+                        <li><a href="https://www.pbinfo.ro/probleme/1608/sortare-divizori">🟠 https://www.pbinfo.ro/probleme/1608/sortare-divizori</a></li>
+                    </ul>
+                </div>
+                <div class="problem-category">
+                    <h3>Probleme Grele</h3>
+                    <ul>
+                        <li><a href="https://www.pbinfo.ro/probleme/1225/sort2dist">🟠 https://www.pbinfo.ro/probleme/1225/sort2dist</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-left">&copy; 2024 SimAlgo Learning</p>
+            <p class="footer-center">Made with <span class="heart">❤</span></p>
+            <p class="footer-right" id="current-time"></p>
+        </div>
+    </footer>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            document.getElementById('current-time').textContent = timeString;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('nav-links_visible');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimAlgo Learning - Practică BFS</title>
+    <link rel="stylesheet" href="PracticaBfs.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                <img src="logo.png" alt="SimAlgo Learning Logo" class="logo-img">
+                SimAlgo Learning
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="home.html">HOME</a></li>
+                    <li><a href="Algoritmi.html">Algoritmi</a></li>
+                    <li><a href="Despre.html">Despre noi</a></li>
+                </ul>
+            </nav>
+            <button class="nav-toggle" aria-label="toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <h1>Practica BFS</h1>
+            <h2>Probleme Propuse</h2>
+            <div class="problems">
+                <div class="problem-category">
+                    <h3>Probleme Ușoare</h3>
+                    <ul>
+                        <li><a href="https://www.infoarena.ro/problema/bfs">🟠 https://www.infoarena.ro/problema/bfs</a></li>
+                        <li><a href="https://www.pbinfo.ro/probleme/484/lantminim">🟠 https://www.pbinfo.ro/probleme/484/lantminim</a></li>
+                        <li><a href="https://www.pbinfo.ro/probleme/126/dmax">🟠 https://www.pbinfo.ro/probleme/126/dmax</a></li>
+                    </ul>
+                </div>
+                <div class="problem-category">
+                    <h3>Probleme Medii</h3>
+                    <ul>
+                        <li><a href="https://www.pbinfo.ro/probleme/538/lungimeminima">🟠 https://www.pbinfo.ro/probleme/538/lungimeminima</a></li>
+                        <li><a href="https://infoarena.ro/problema/graf">🟠 https://infoarena.ro/problema/graf</a></li>
+                        <li><a href="https://infoarena.ro/problema/padure">🟠 https://infoarena.ro/problema/padure</a></li>
+                    </ul>
+                </div>
+                <div class="problem-category">
+                    <h3>Probleme Grele</h3>
+                    <ul>
+                        <li><a href="https://infoarena.ro/problema/reinvent">🟠 https://infoarena.ro/problema/reinvent</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-left">&copy; 2024 SimAlgo Learning</p>
+            <p class="footer-center">Made with <span class="heart">❤</span></p>
+            <p class="footer-right" id="current-time"></p>
+        </div>
+    </footer>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            document.getElementById('current-time').textContent = timeString;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('nav-links_visible');
+        });
+    </script>
+</body>
+</html>

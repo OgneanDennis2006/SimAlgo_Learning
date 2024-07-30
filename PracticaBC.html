@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimAlgo Learning - Practică Beacktracking Combinatoric</title>
+    <link rel="stylesheet" href="PracticaBC.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                <img src="logo.png" alt="SimAlgo Learning Logo" class="logo-img">
+                SimAlgo Learning
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="home.html">HOME</a></li>
+                    <li><a href="Algoritmi.html">Algoritmi</a></li>
+                    <li><a href="Despre.html">Despre noi</a></li>
+                </ul>
+            </nav>
+            <button class="nav-toggle" aria-label="toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <h1>Practica Backtracking Combinatoric</h1>
+            <h2>Probleme Propuse</h2>
+            <div class="problems">
+                <div class="problem-category">
+                    <h3>Probleme Ușoare</h3>
+                    <ul>
+                        <li><a href="https://www.pbinfo.ro/probleme/123/permutari">🟠 https://www.pbinfo.ro/probleme/123/permutari</a></li>
+                        <li><a href="https://www.pbinfo.ro/probleme/202/permpf">🟠 https://www.pbinfo.ro/probleme/202/permpf</a></li>
+                        <li><a href="https://www.pbinfo.ro/probleme/194/anagrame1">🟠 https://www.pbinfo.ro/probleme/194/anagrame1</a></li>
+                        <li><a href="https://www.pbinfo.ro/probleme/196/aranjamente">🟠 https://www.pbinfo.ro/probleme/196/aranjamente</a></li>
+                        <li><a href="https://www.pbinfo.ro/probleme/201/submdiv">🟠 https://www.pbinfo.ro/probleme/201/submdiv</a></li>
+                    </ul>
+                </div>
+                <div class="problem-category">
+                    <h3>Probleme Medii</h3>
+                    <ul>
+                        <li><a href="https://www.pbinfo.ro/probleme/3943/cerc5">🟠 https://www.pbinfo.ro/probleme/3943/cerc5</a></li>
+                        <li><a href="https://www.pbinfo.ro/probleme/320/partitiinumar">🟠 https://www.pbinfo.ro/probleme/320/partitiinumar</a></li>
+                        <li><a href="https://www.pbinfo.ro/probleme/2245/plata1">🟠 https://www.pbinfo.ro/probleme/2245/plata1</a></li>
+                        <li><a href="https://www.pbinfo.ro/probleme/344/paranteze">🟠 https://www.pbinfo.ro/probleme/344/paranteze</a></li>
+                        <li><a href="https://www.pbinfo.ro/probleme/1357/plusminus">🟠 https://www.pbinfo.ro/probleme/1357/plusminus</a></li>
+                        <li><a href="https://www.infoarena.ro/problema/dusman">🟠 https://www.infoarena.ro/problema/dusman</a></li>
+                        <li><a href="http://campion.edu.ro/arhiva/index.php?page=problem&action=view&id=187">🟠 http://campion.edu.ro/arhiva/index.php?page=problem&action=view&id=187</a></li>
+                    </ul>
+                </div>
+                <div class="problem-category">
+                    <h3>Probleme Grele</h3>
+                    <ul>
+                        <li><a href="https://www.pbinfo.ro/probleme/1356/nsir">🟠 https://www.pbinfo.ro/probleme/1356/nsir</a></li>
+                        <li><a href="https://www.infoarena.ro/problema/inel">🟠 https://www.infoarena.ro/problema/inel</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-left">&copy; 2024 SimAlgo Learning</p>
+            <p class="footer-center">Made with <span class="heart">❤</span></p>
+            <p class="footer-right" id="current-time"></p>
+        </div>
+    </footer>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            document.getElementById('current-time').textContent = timeString;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('nav-links_visible');
+        });
+    </script>
+</body>
+</html>
